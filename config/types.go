@@ -13,8 +13,8 @@ var MysqlToGoTypes = map[string]string{
 	"date":       "time.Time",
 	"time":       "string",
 	"year":       "int8",
-	"datetime":   "time.Time",
-	"timestamp":  "time.Time",
+	"datetime":   "string",
+	"timestamp":  "int64",
 	"char":       "string",
 	"varchar":    "string",
 	"tinytext":   "string",
@@ -28,16 +28,15 @@ var MysqlToGoTypes = map[string]string{
 }
 
 var GoSqlNullTypes = map[string]string{
-	"bool":      "sql.NullBool",
-	"byte":      "sql.NullByte",
-	"int8":      "sql.NullByte",
-	"int16":     "sql.NullInt16",
-	"int":       "sql.NullInt32",
-	"int64":     "sql.NullInt64",
-	"float32":   "sql.NullFloat64",
-	"float64":   "sql.NullFloat64",
-	"string":    "sql.NullString",
-	"time.Time": "sql.NullTime",
+	"bool":    "sql.NullBool",
+	"byte":    "sql.NullByte",
+	"int8":    "sql.NullByte",
+	"int16":   "sql.NullInt16",
+	"int":     "sql.NullInt32",
+	"int64":   "sql.NullInt64",
+	"float32": "sql.NullFloat64",
+	"float64": "sql.NullFloat64",
+	"string":  "sql.NullString",
 }
 
 var GoTypeOps = map[string]string{
