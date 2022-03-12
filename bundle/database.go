@@ -60,7 +60,7 @@ func Columns(database string) []*Column {
 			}
 			defaultStr = " default " + defaultPre + strings.ToLower(cc.Default) + defaultSuf
 		}
-		cc.OrmTag = fmt.Sprintf("orm:\"pk{%s} column{%s} insertIgnore{%s} definition{%s}\"",
+		cc.OrmTag = fmt.Sprintf("orm:\"pk{%s} c{%s} ig{%s} ug{F} def{%s}\"",
 			pk, cc.Name, insertIgnore, fmt.Sprintf("%s %s %s%s%s comment '%s'", cc.Name, cc.DataType, notNull, autoIncrement, defaultStr, cc.Comment))
 		cs[i] = cc
 	}

@@ -23,5 +23,5 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	gorm.DS(db){{end}}
+	anorm.DS(db){{end}}
 }

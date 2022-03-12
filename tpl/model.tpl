@@ -25,19 +25,17 @@ type {{.Model.Name}} struct {
     {{end}}
 }
 {{if .Model.Orm}}
-func (model *{{.Model.Name}}) MetaData() *gorm.ModelMeta {
-	return &gorm.ModelMeta{
-		Migrate:          false,
+func (model *{{.Model.Name}}) MetaData() *anorm.ModelMeta {
+	return &anorm.ModelMeta{
 		Comment:          "{{.Model.Table.Comment}}",
 		IndexDefinitions: []sg.Ge{ {{range $i, $e := .Model.OrmIndexDefinitions}}
 			{{$e}},{{end}}
 		},
-		InsertIgnores:    []sg.C{},
 	}
 }
 
 func init(){
-	gorm.Register(new({{.Model.Name}}))
+	anorm.Register(new({{.Model.Name}}))
 }
 {{end}}
 // New{{.Model.Name}} returns new {{.Model.Name}} pointer

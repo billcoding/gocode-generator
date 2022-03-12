@@ -89,7 +89,7 @@ func init() {
 	genCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Print verbose output")
 
 	genCmd.PersistentFlags().BoolVar(&model, "model", true, "Generate Model Go file")
-	genCmd.PersistentFlags().BoolVar(&orm, "orm", true, "Generate Model Go gorm supports")
+	genCmd.PersistentFlags().BoolVar(&orm, "orm", true, "Generate Model Go anorm supports")
 	genCmd.PersistentFlags().StringVarP(&modelPKG, "model-pkg", "1", "model", "The Model package")
 	genCmd.PersistentFlags().BoolVar(&modelTable2ModelDefault, "table2model-default", false, "The Table to Model name strategy: default")
 	genCmd.PersistentFlags().BoolVar(&modelTable2ModelFirstLetterUpper, "table2model-first-letter-upper", false, "The Table to Model name strategy: FirstLetterUpper")
