@@ -122,7 +122,7 @@ func (eg *ModelGenerator) Init() *ModelGenerator {
 	ormIndexDefinitions := make([]string, 0)
 	for _, ii := range eg.Table.Indexes {
 		ormIndexDefinitions = append(ormIndexDefinitions,
-			fmt.Sprintf(`sgen.IndexDefinition(%v, sgen.P("%s"), %s)`, ii.Unique == 1, ii.Name, `sgen.C("`+strings.ReplaceAll(ii.Column, ",", `"), sgen.C("`)+`")`))
+			fmt.Sprintf(`sg.IndexDefinition(%v, sg.P("%s"), %s)`, ii.Unique == 1, ii.Name, `sg.C("`+strings.ReplaceAll(ii.Column, ",", `"), sg.C("`)+`")`))
 	}
 	eg.Model.OrmIndexDefinitions = ormIndexDefinitions
 	return eg

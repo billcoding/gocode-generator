@@ -8,7 +8,6 @@ type Configuration struct {
 	ExcludeTables []string
 	Global        *GlobalConfiguration
 	Model         *ModelConfiguration
-	Mapper        *MapperConfiguration
 	MapperEnable  bool
 	Config        *CfgConfiguration
 	Controller    *ControllerConfiguration
@@ -38,19 +37,6 @@ type ModelConfiguration struct {
 	NamePrefix            string
 	NameSuffix            string
 	Orm                   bool
-}
-
-type MapperConfiguration struct {
-	PKG              string
-	NameStrategy     StrategyType
-	VarNameStrategy  StrategyType
-	FileNameStrategy StrategyType
-	NamePrefix       string
-	NameSuffix       string
-	VarNamePrefix    string
-	VarNameSuffix    string
-	Comment          bool
-	Batis            string
 }
 
 type CfgConfiguration struct {

@@ -9,14 +9,9 @@ var rootCmd = &cobra.Command{
 	Short: "A Go source code generator written in Golang",
 	Long: `A Go source code generator for 
 [gobatis](https://github.com/billcoding/gobatis)
-[gorm](https://github.com/billcoding/gorm) 
-[flygo](https://github.com/billcoding/flygo)
-written in Golang.
-It supports to generate:
-1. global config
-2. gobatis Model, Mapper and itself XML
-3. gorm Model, Field's Column tag definition and metadata
-4. flygo REST-ful Controller and Service`,
+[anorm](https://github.com/go-the-way/anorm) 
+[anoweb](https://github.com/go-the-way/anoweb)
+written in Golang.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if versionFlag {
 			PrintVersion(false)

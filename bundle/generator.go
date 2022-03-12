@@ -19,18 +19,6 @@ func GetModelGenerators(CFG *Configuration, tableMap map[string]*Table) []Genera
 	return egs
 }
 
-func GetMapperGenerators(CFG *Configuration, modelGenerators []Generator) []Generator {
-	egs := make([]Generator, 0)
-	for _, eg := range modelGenerators {
-		mg := &MapperGenerator{
-			C: CFG,
-		}
-		mg.Init(eg.(*ModelGenerator).Model)
-		egs = append(egs, mg)
-	}
-	return egs
-}
-
 func GetCfgGenerator(CFG *Configuration) Generator {
 	return &ConfigGenerator{
 		C: CFG,

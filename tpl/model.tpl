@@ -7,9 +7,9 @@ package {{.Config.Model.PKG}}
 
 import (
 	"encoding/json"
-    "github.com/billcoding/sgen"{{if .Model.Orm}}
+    "github.com/go-the-way/sg"{{if .Model.Orm}}
      _ "{{.Config.Module}}/{{.Config.Config.PKG}}"
-    "github.com/billcoding/gorm"{{end}}{{if .Model.ImportTime}}
+    "github.com/go-the-way/anorm"{{end}}{{if .Model.ImportTime}}
     "time"{{end}}{{if .Model.ImportSql}}
     "database/sql"{{end}}
 )
@@ -29,10 +29,10 @@ func (model *{{.Model.Name}}) MetaData() *gorm.ModelMeta {
 	return &gorm.ModelMeta{
 		Migrate:          false,
 		Comment:          "{{.Model.Table.Comment}}",
-		IndexDefinitions: []sgen.Ge{ {{range $i, $e := .Model.OrmIndexDefinitions}}
+		IndexDefinitions: []sg.Ge{ {{range $i, $e := .Model.OrmIndexDefinitions}}
 			{{$e}},{{end}}
 		},
-		InsertIgnores:    []sgen.C{},
+		InsertIgnores:    []sg.C{},
 	}
 }
 
@@ -97,10 +97,10 @@ func (model *{{.Model.Name}}) JSON() string {
 
 var {{.Model.Name}}Columns = &struct{ {{range $i, $e := .Model.Ids}}
     {{if $e.Comment}}// {{$e.Name}} {{$e.Column.Comment}}{{end}}
-    {{$e.Name}} sgen.C
+    {{$e.Name}} sg.C
     {{end}}{{range $i, $e := .Model.Fields}}
     {{if $e.Comment}}// {{$e.Name}} {{$e.Column.Comment}}{{end}}
-    {{$e.Name}} sgen.C
+    {{$e.Name}} sg.C
     {{end}}
 }{ {{range $i, $e := .Model.Ids}}
     {{$e.Name}} : "{{$e.Column.Name}}",

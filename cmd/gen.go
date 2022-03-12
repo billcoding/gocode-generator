@@ -58,12 +58,6 @@ gocode-generator -D "root:123@tcp(127.0.0.1:3306)/test" -d "database" -M "awesom
 		modelGenerators := GetModelGenerators(CFG, tableMap)
 		generators = append(generators, modelGenerators...)
 
-		if mapper {
-			mapperGenerators := GetMapperGenerators(CFG, modelGenerators)
-			generators = append(generators, mapperGenerators...)
-		}
-
-		CFG.MapperEnable = mapper
 		if config {
 			generators = append(generators, GetCfgGenerator(CFG))
 		}
@@ -116,30 +110,6 @@ func init() {
 	genCmd.PersistentFlags().BoolVar(&modelJSONTagKeyFirstLetterUpper, "model-json-tag-key-first-letter-upper", false, "The Entity JSON Tag key strategy: FirstLetterUpper")
 	genCmd.PersistentFlags().BoolVar(&modelJSONTagKeyUnderlineToCamel, "model-json-tag-key-underline-to-camel", false, "The Entity JSON Tag key strategy: UnderlineToCamel")
 	genCmd.PersistentFlags().BoolVar(&modelJSONTagKeyUnderlineToUpper, "model-json-tag-key-underline-to-upper", false, "The Entity JSON Tag key strategy: UnderlineToUpper")
-
-	genCmd.PersistentFlags().BoolVarP(&mapper, "mapper", "m", true, "Generate Mapper file")
-	genCmd.PersistentFlags().StringVarP(&mapperPKG, "mapper-pkg", "2", "mapper", "The Mapper package")
-	genCmd.PersistentFlags().BoolVar(&mapperNameDefault, "mapper-name-default", false, "The Mapper name strategy: default")
-	genCmd.PersistentFlags().BoolVar(&mapperNameFirstLetterUpper, "mapper-name-first-letter-upper", false, "The Mapper name strategy: FirstLetterUpper")
-	genCmd.PersistentFlags().BoolVar(&mapperNameUnderlineToCamel, "mapper-name-underline-to-camel", true, "The Mapper name strategy: UnderlineToCamel")
-	genCmd.PersistentFlags().BoolVar(&mapperNameUnderlineToUpper, "mapper-name-underline-to-upper", false, "The Mapper name strategy: UnderlineToUpper")
-
-	genCmd.PersistentFlags().BoolVar(&mapperVarDefault, "mapper-var-default", false, "The Mapper var strategy: default")
-	genCmd.PersistentFlags().BoolVar(&mapperVarFirstLetterUpper, "mapper-var-first-letter-upper", false, "The Mapper var strategy: FirstLetterUpper")
-	genCmd.PersistentFlags().BoolVar(&mapperVarUnderlineToCamel, "mapper-var-underline-to-camel", false, "The Mapper var strategy: UnderlineToCamel")
-	genCmd.PersistentFlags().BoolVar(&mapperVarUnderlineToUpper, "mapper-var-underline-to-upper", true, "The Mapper var strategy: UnderlineToUpper")
-
-	genCmd.PersistentFlags().BoolVar(&mapperFileNameDefault, "mapper-filename-default", true, "The Mapper FileName strategy: default")
-	genCmd.PersistentFlags().BoolVar(&mapperFileNameFirstLetterUpper, "mapper-filename-first-letter-upper", false, "The Mapper FileName strategy: FirstLetterUpper")
-	genCmd.PersistentFlags().BoolVar(&mapperFileNameUnderlineToCamel, "mapper-filename-underline-to-camel", false, "The Mapper FileName strategy: UnderlineToCamel")
-	genCmd.PersistentFlags().BoolVar(&mapperFileNameUnderlineToUpper, "mapper-filename-underline-to-upper", false, "The Mapper FileName strategy: UnderlineToUpper")
-
-	genCmd.PersistentFlags().StringVar(&mapperNamePrefix, "mapper-name-prefix", "", "The Mapper name prefix")
-	genCmd.PersistentFlags().StringVar(&mapperNameSuffix, "mapper-name-suffix", "Mapper", "The Mapper name suffix")
-	genCmd.PersistentFlags().StringVar(&mapperVarPrefix, "mapper-var-prefix", "", "The Mapper var prefix")
-	genCmd.PersistentFlags().StringVar(&mapperVarSuffix, "mapper-var-suffix", "Mapper", "The Mapper var suffix")
-	genCmd.PersistentFlags().BoolVar(&mapperComment, "mapper-comment", true, "Generate Mapper comment")
-	genCmd.PersistentFlags().StringVar(&mapperBatis, "mapper-batis", "Batis", "The Mapper Batis name")
 
 	genCmd.PersistentFlags().BoolVarP(&config, "config", "C", true, "Generate Config")
 	genCmd.PersistentFlags().StringVarP(&configPKG, "config-pkg", "3", "config", "The Config package")
@@ -236,31 +206,6 @@ var (
 	modelJSONTagKeyUnderlineToCamel = false
 	modelJSONTagKeyUnderlineToUpper = false
 
-	mapper    = true
-	mapperPKG = "mapper"
-
-	mapperNameDefault          = false
-	mapperNameFirstLetterUpper = false
-	mapperNameUnderlineToCamel = true
-	mapperNameUnderlineToUpper = false
-
-	mapperVarDefault          = false
-	mapperVarFirstLetterUpper = false
-	mapperVarUnderlineToCamel = false
-	mapperVarUnderlineToUpper = true
-
-	mapperFileNameDefault          = true
-	mapperFileNameFirstLetterUpper = false
-	mapperFileNameUnderlineToCamel = false
-	mapperFileNameUnderlineToUpper = false
-
-	mapperNamePrefix = ""
-	mapperNameSuffix = "Mapper"
-	mapperVarPrefix  = ""
-	mapperVarSuffix  = "Mapper"
-	mapperBatis      = "Batis"
-	mapperComment    = true
-
 	config    = true
 	configPKG = "config"
 
@@ -348,18 +293,6 @@ var CFG = &Configuration{
 		NamePrefix:            "",
 		NameSuffix:            "",
 		Orm:                   true,
-	},
-	Mapper: &MapperConfiguration{
-		PKG:              "mapper",
-		NameStrategy:     UnderlineToCamel,
-		VarNameStrategy:  UnderlineToUpper,
-		FileNameStrategy: Default,
-		NamePrefix:       "",
-		NameSuffix:       "Mapper",
-		VarNamePrefix:    "",
-		VarNameSuffix:    "Mapper",
-		Comment:          true,
-		Batis:            "Batis",
 	},
 	Config: &CfgConfiguration{
 		PKG:  "config",
@@ -468,50 +401,6 @@ func setCFG() {
 			CFG.Model.JSONTagKeyStrategy = FirstLetterUpper
 		case modelJSONTagKeyDefault:
 			CFG.Model.JSONTagKeyStrategy = Default
-		}
-	}
-
-	{
-		if mapperPKG != "" {
-			CFG.Mapper.PKG = mapperPKG
-		}
-		CFG.Mapper.NamePrefix = mapperNamePrefix
-		CFG.Mapper.NameSuffix = mapperNameSuffix
-		CFG.Mapper.VarNamePrefix = mapperVarPrefix
-		CFG.Mapper.VarNameSuffix = mapperVarSuffix
-		CFG.Mapper.Comment = mapperComment
-		CFG.Mapper.Batis = mapperBatis
-
-		switch {
-		case mapperNameUnderlineToUpper:
-			CFG.Mapper.NameStrategy = UnderlineToUpper
-		case mapperNameUnderlineToCamel:
-			CFG.Mapper.NameStrategy = UnderlineToCamel
-		case mapperNameFirstLetterUpper:
-			CFG.Mapper.NameStrategy = FirstLetterUpper
-		case mapperNameDefault:
-			CFG.Mapper.NameStrategy = Default
-		}
-
-		switch {
-		case mapperVarUnderlineToUpper:
-			CFG.Mapper.VarNameStrategy = UnderlineToUpper
-		case mapperVarUnderlineToCamel:
-			CFG.Mapper.VarNameStrategy = UnderlineToCamel
-		case mapperVarFirstLetterUpper:
-			CFG.Mapper.VarNameStrategy = FirstLetterUpper
-		case mapperVarDefault:
-			CFG.Mapper.VarNameStrategy = Default
-		}
-		switch {
-		case mapperFileNameUnderlineToUpper:
-			CFG.Mapper.FileNameStrategy = UnderlineToUpper
-		case mapperFileNameUnderlineToCamel:
-			CFG.Mapper.FileNameStrategy = UnderlineToCamel
-		case mapperFileNameFirstLetterUpper:
-			CFG.Mapper.FileNameStrategy = FirstLetterUpper
-		case mapperFileNameDefault:
-			CFG.Mapper.FileNameStrategy = Default
 		}
 	}
 

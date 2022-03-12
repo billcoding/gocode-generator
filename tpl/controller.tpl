@@ -6,8 +6,8 @@ package {{.Config.Controller.PKG}}
 {{if .Config.Global.Website}}// @repo {{.Config.Global.WebsiteContent}}{{end}}
 
 import (
-    "github.com/billcoding/flygo"
-    "github.com/billcoding/flygo/context"
+    "github.com/go-the-way/anoweb"
+    "github.com/go-the-way/anoweb/context"
 )
 
 {{if .Config.Controller.Comment}}// {{.Controller.Name}} {{.Controller.Model.Table.Comment}} Controller{{end}}
@@ -15,7 +15,7 @@ type {{.Controller.Name}} struct {
 }
 
 func init() {
-    app := flygo.GetApp()
+    app := anoweb.Default
     {{.Controller.VarName}} := &{{.Controller.Name}}{}
     app.Controller({{.Controller.VarName}})
 }

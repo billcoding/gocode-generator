@@ -7,7 +7,7 @@ package {{.Config.Config.PKG}}
 
 import ({{if .Config.Model.Orm}}
 	"database/sql"
-	"github.com/billcoding/gorm"
+	"github.com/go-the-way/anorm"
 	{{end}}{{if .Config.MapperEnable}}ba "github.com/billcoding/gobatis"
 	{{end}}_ "github.com/go-sql-driver/mysql"
 )
