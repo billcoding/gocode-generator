@@ -16,9 +16,9 @@ var genCmd = &cobra.Command{
 	Short:   "Generate Go files",
 	Long: `Generate Go files.
 Simply type gocode-generator help gen for full details.`,
-	Example: `gocode-generator -D "root:123@tcp(127.0.0.1:3306)/test" -d "database" -M "awesome"
-gocode-generator -D "root:123@tcp(127.0.0.1:3306)/test" -d "database" -M "awesome" -o "/to/path" 
-gocode-generator -D "root:123@tcp(127.0.0.1:3306)/test" -d "database" -M "awesome" -au "bigboss" -o "/to/path"`,
+	Example: `gocode-generator gen -D "root:123@tcp(127.0.0.1:3306)/test" -d "database" -M "awesome"
+gocode-generator gen -D "root:123@tcp(127.0.0.1:3306)/test" -d "database" -M "awesome" -o "/to/path" 
+gocode-generator gen -D "root:123@tcp(127.0.0.1:3306)/test" -d "database" -M "awesome" -au "bigboss" -o "/to/path"`,
 	Run: func(cmd *cobra.Command, args []string) {
 		CFG.Verbose = verbose
 
