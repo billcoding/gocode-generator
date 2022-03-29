@@ -7,8 +7,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "gocode-generator",
 	Short: "A Go source code generator written in Golang",
-	Long: `A Go source code generator for 
-[gobatis](https://github.com/billcoding/gobatis)
+	Long: `A Go source code generator for
 [anorm](https://github.com/go-the-way/anorm) 
 [anoweb](https://github.com/go-the-way/anoweb)
 written in Golang.`,

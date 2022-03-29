@@ -8,18 +8,17 @@ package {{.Config.Config.PKG}}
 import ({{if .Config.Model.Orm}}
 	"database/sql"
 	"github.com/go-the-way/anorm"
-	{{end}}{{if .Config.MapperEnable}}ba "github.com/billcoding/gobatis"
-	{{end}}_ "github.com/go-sql-driver/mysql"
+	{{end}}
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var (
-	{{if .Config.MapperEnable}}{{.Config.Mapper.Batis}} = ba.Default()
-	{{end}}DSN = ""
+	DSN = ""
 )
 
 func init() {
-	{{if .Config.MapperEnable}}{{.Config.Mapper.Batis}}.DSN(DSN)
-	{{end}}{{if .Config.Model.Orm}}db, err := sql.Open("mysql", DSN)
+	{{if .Config.Model.Orm}}db, err := sql.Open("mysql", DSN)
 	if err != nil {
 		panic(err)
 	}
