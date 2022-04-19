@@ -11,8 +11,7 @@ import (
 )
 
 {{if .Config.Controller.Comment}}// {{.Controller.Name}} {{.Controller.Model.Table.Comment}} Controller{{end}}
-type {{.Controller.Name}} struct {
-}
+type {{.Controller.Name}} struct {}
 
 func init() {
     app := anoweb.Default

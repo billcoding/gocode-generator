@@ -9,8 +9,7 @@ import (
 	"encoding/json"
     "github.com/go-the-way/sg"{{if .Model.Orm}}
      _ "{{.Config.Module}}/{{.Config.Config.PKG}}"
-    "github.com/go-the-way/anorm"{{end}}{{if .Model.ImportTime}}
-    "time"{{end}}{{if .Model.ImportSql}}
+    "github.com/go-the-way/anorm"{{end}}{{if .Model.ImportSql}}
     "database/sql"{{end}}
 )
 {{$mapperEnable := .Config.MapperEnable}}

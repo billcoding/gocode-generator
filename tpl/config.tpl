@@ -9,7 +9,6 @@ import ({{if .Config.Model.Orm}}
 	"database/sql"
 	"github.com/go-the-way/anorm"
 	{{end}}
-
 	_ "github.com/go-sql-driver/mysql"
 )
 
