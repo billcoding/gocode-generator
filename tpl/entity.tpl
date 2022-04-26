@@ -24,7 +24,7 @@ type {{.Entity.Name}} struct {
     {{end}}
 }
 {{if .Entity.Orm}}
-func (model *{{.Entity.Name}}) Configure(c *anorm.EC) {
+func (entity *{{.Entity.Name}}) Configure(c *anorm.EC) {
 	c.Migrate = true
 	c.Commented = true
 	c.Comment = "{{.Entity.Table.Comment}}"
@@ -38,31 +38,31 @@ func init(){
 }
 {{end}}
 
-// FieldMap model to map named with fields
-func (model *{{.Entity.Name}}) FieldMap() map[string]interface{} {
+// FieldMap entity to map named with fields
+func (entity *{{.Entity.Name}}) FieldMap() map[string]interface{} {
 	return map[string]interface{}{
 	    {{range $i, $e := .Entity.Ids}}
-        "{{$e.Name}}": model.{{$e.Name}},
+        "{{$e.Name}}": entity.{{$e.Name}},
         {{end}}{{range $i, $e := .Entity.Fields}}
-        "{{$e.Name}}": model.{{$e.Name}},
+        "{{$e.Name}}": entity.{{$e.Name}},
         {{end}}
     }
 }
 
-// ColumnMap model to map named with columns
-func (model *{{.Entity.Name}}) ColumnMap() map[string]interface{} {
+// ColumnMap entity to map named with columns
+func (entity *{{.Entity.Name}}) ColumnMap() map[string]interface{} {
 	return map[string]interface{}{
 	    {{range $i, $e := .Entity.Ids}}
-        "{{$e.Column.Name}}": model.{{$e.Name}},
+        "{{$e.Column.Name}}": entity.{{$e.Name}},
         {{end}}{{range $i, $e := .Entity.Fields}}
-        "{{$e.Column.Name}}": model.{{$e.Name}},
+        "{{$e.Column.Name}}": entity.{{$e.Name}},
         {{end}}
     }
 }
 
-// JSON model to json
-func (model *{{.Entity.Name}}) JSON() string {
-	bytes, err := json.Marshal(model)
+// JSON entity to json
+func (entity *{{.Entity.Name}}) JSON() string {
+	bytes, err := json.Marshal(entity)
 	if err != nil {
 		panic(err)
 	}

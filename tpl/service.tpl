@@ -7,7 +7,7 @@ package {{.Config.Service.PKG}}
 
 var {{.Service.VarName}} = &{{.Service.Name}}{}
 
-{{if .Config.Service.Comment}}// {{.Service.Model.Table.Comment}} Service{{end}}
+{{if .Config.Service.Comment}}// {{.Service.Entity.Table.Comment}} Service{{end}}
 type {{.Service.Name}} struct {}
 
 // DoService demo do service

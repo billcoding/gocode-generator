@@ -5,7 +5,7 @@ package {{.Config.Config.PKG}}
 {{if .Config.Global.Copyright}}// @created by {{.Config.Global.CopyrightContent}}{{end}}
 {{if .Config.Global.Website}}// @repo {{.Config.Global.WebsiteContent}}{{end}}
 
-import ({{if .Config.Model.Orm}}
+import ({{if .Config.Entity.Orm}}
 	"database/sql"
 	"github.com/go-the-way/anorm"
 	{{end}}
@@ -17,7 +17,7 @@ var (
 )
 
 func init() {
-	{{if .Config.Model.Orm}}db, err := sql.Open("mysql", DSN)
+	{{if .Config.Entity.Orm}}db, err := sql.Open("mysql", DSN)
 	if err != nil {
 		panic(err)
 	}
