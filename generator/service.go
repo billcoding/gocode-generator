@@ -20,14 +20,14 @@ type ServiceGenerator struct {
 	Body    string
 }
 
-func (sg *ServiceGenerator) Init(e *Model) {
+func (sg *ServiceGenerator) Init(e *Entity) {
 	sg.Service = &Service{
-		PKG:   sg.C.Service.PKG,
-		Model: e,
+		PKG:    sg.C.Service.PKG,
+		Entity: e,
 	}
-	sg.Service.Name = sg.C.Service.NamePrefix + ConvertString(sg.Service.Model.Table.Name, sg.C.Service.NameStrategy) + sg.C.Service.NameSuffix
-	sg.Service.VarName = sg.C.Service.VarNamePrefix + ConvertString(sg.Service.Model.Table.Name, sg.C.Service.VarNameStrategy) + sg.C.Service.VarNameSuffix
-	sg.Service.FileName = ConvertString(sg.Service.Model.Table.Name, sg.C.Service.FileNameStrategy)
+	sg.Service.Name = sg.C.Service.NamePrefix + ConvertString(sg.Service.Entity.Table.Name, sg.C.Service.NameStrategy) + sg.C.Service.NameSuffix
+	sg.Service.VarName = sg.C.Service.VarNamePrefix + ConvertString(sg.Service.Entity.Table.Name, sg.C.Service.VarNameStrategy) + sg.C.Service.VarNameSuffix
+	sg.Service.FileName = ConvertString(sg.Service.Entity.Table.Name, sg.C.Service.FileNameStrategy)
 }
 
 func (sg *ServiceGenerator) Generate() {
@@ -44,7 +44,7 @@ func (sg *ServiceGenerator) generateBody() {
 		},
 	})
 	if sg.C.Verbose {
-		serviceGeneratorLogger.Println(fmt.Sprintf("[generateBody] for model[%s]", sg.Service.Model.Name))
+		serviceGeneratorLogger.Println(fmt.Sprintf("[generateBody] for entity[%s]", sg.Service.Entity.Name))
 	}
 }
 
@@ -58,6 +58,6 @@ func (sg *ServiceGenerator) generateFile() {
 	_ = os.MkdirAll(dir, 0700)
 	_ = os.WriteFile(fileName, []byte(sg.Body), 0700)
 	if sg.C.Verbose {
-		serviceGeneratorLogger.Println(fmt.Sprintf("[generateFile] for model[%s], saved as [%s]", sg.Service.Model.Name, fileName))
+		serviceGeneratorLogger.Println(fmt.Sprintf("[generateFile] for entity[%s], saved as [%s]", sg.Service.Entity.Name, fileName))
 	}
 }

@@ -1,4 +1,4 @@
-package model
+package entity
 
 type Controller struct {
 	PKG      string
@@ -6,5 +6,5 @@ type Controller struct {
 	Route    string
 	VarName  string
 	FileName string
-	Model    *Model
+	Entity   *Entity
 }

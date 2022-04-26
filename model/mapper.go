@@ -1,4 +1,4 @@
-package model
+package entity
 
 type Mapper struct {
 	PKG      string
@@ -6,5 +6,5 @@ type Mapper struct {
 	VarName  string
 	FileName string
 	Batis    string
-	Model    *Model
+	Entity   *Entity
 }

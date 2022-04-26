@@ -37,7 +37,7 @@ gocode-generator gen -D "root:123@tcp(127.0.0.1:3306)/test" -d "database" -M "aw
 			return
 		}
 
-		if !model {
+		if !entity {
 			fmt.Fprintln(os.Stderr, "Nothing do...")
 			return
 		}
@@ -55,20 +55,20 @@ gocode-generator gen -D "root:123@tcp(127.0.0.1:3306)/test" -d "database" -M "aw
 		SetTableIndexes(tableMap, indexMap)
 		generators := make([]Generator, 0)
 
-		modelGenerators := GetModelGenerators(CFG, tableMap)
-		generators = append(generators, modelGenerators...)
+		entityGenerators := GetEntityGenerators(CFG, tableMap)
+		generators = append(generators, entityGenerators...)
 
 		if config {
 			generators = append(generators, GetCfgGenerator(CFG))
 		}
 
 		if controller {
-			controllerGenerators := GetControllerGenerators(CFG, modelGenerators)
+			controllerGenerators := GetControllerGenerators(CFG, entityGenerators)
 			generators = append(generators, controllerGenerators...)
 		}
 
 		if service {
-			serviceGenerators := GetServiceGenerators(CFG, modelGenerators)
+			serviceGenerators := GetServiceGenerators(CFG, entityGenerators)
 			generators = append(generators, serviceGenerators...)
 		}
 
@@ -88,28 +88,28 @@ func init() {
 	genCmd.PersistentFlags().StringVar(&author, "author", "bill", "The file copyright author")
 	genCmd.PersistentFlags().BoolVarP(&verbose, "verbose", "V", false, "Print verbose output")
 
-	genCmd.PersistentFlags().BoolVar(&model, "model", true, "Generate Model Go file")
-	genCmd.PersistentFlags().BoolVar(&orm, "orm", true, "Generate Model Go anorm supports")
-	genCmd.PersistentFlags().StringVarP(&modelPKG, "model-pkg", "1", "model", "The Model package")
-	genCmd.PersistentFlags().BoolVar(&modelTable2ModelDefault, "table2model-default", false, "The Table to Model name strategy: default")
-	genCmd.PersistentFlags().BoolVar(&modelTable2ModelFirstLetterUpper, "table2model-first-letter-upper", false, "The Table to Model name strategy: FirstLetterUpper")
-	genCmd.PersistentFlags().BoolVar(&modelTable2ModelUnderlineToCamel, "table2model-underline-to-camel", false, "The Table to Model name strategy: UnderlineToCamel")
-	genCmd.PersistentFlags().BoolVar(&modelTable2ModelUnderlineToUpper, "table2model-underline-to-upper", true, "The Table to Model name strategy: UnderlineToUpper")
-	genCmd.PersistentFlags().BoolVar(&modelColumn2FieldDefault, "column2field-default", false, "The column to field name strategy: default")
-	genCmd.PersistentFlags().BoolVar(&modelColumn2FieldFirstLetterUpper, "column2field-first-letter-upper", false, "The column to field name strategy: FirstLetterUpper")
-	genCmd.PersistentFlags().BoolVar(&modelColumn2FieldUnderlineToCamel, "column2field-underline-to-camel", false, "The column to field name strategy: UnderlineToCamel")
-	genCmd.PersistentFlags().BoolVar(&modelColumn2FieldUnderlineToUpper, "column2field-underline-to-upper", true, "The column to field name strategy: UnderlineToUpper")
-	genCmd.PersistentFlags().BoolVar(&modelFileNameDefault, "model-filename-default", true, "The Model file name strategy: default")
-	genCmd.PersistentFlags().BoolVar(&modelFileNameFirstLetterUpper, "model-filename-first-letter-upper", false, "The Model file name strategy: FirstLetterUpper")
-	genCmd.PersistentFlags().BoolVar(&modelFileNameUnderlineToCamel, "model-filename-underline-to-camel", false, "The Model file name strategy: UnderlineToCamel")
-	genCmd.PersistentFlags().BoolVar(&modelFileNameUnderlineToUpper, "model-filename-underline-to-upper", false, "The Model file name strategy: UnderlineToUpper")
-	genCmd.PersistentFlags().BoolVar(&modelComment, "model-comment", true, "Generate Model comment")
-	genCmd.PersistentFlags().BoolVar(&modelFieldComment, "model-field-comment", true, "Generate Model field comment")
-	genCmd.PersistentFlags().BoolVar(&modelJSONTag, "model-json-tag", true, "Generate Model field JSON tag")
-	genCmd.PersistentFlags().BoolVar(&modelJSONTagKeyDefault, "model-json-tag-key-default", true, "The Entity JSON Tag key strategy: default")
-	genCmd.PersistentFlags().BoolVar(&modelJSONTagKeyFirstLetterUpper, "model-json-tag-key-first-letter-upper", false, "The Entity JSON Tag key strategy: FirstLetterUpper")
-	genCmd.PersistentFlags().BoolVar(&modelJSONTagKeyUnderlineToCamel, "model-json-tag-key-underline-to-camel", false, "The Entity JSON Tag key strategy: UnderlineToCamel")
-	genCmd.PersistentFlags().BoolVar(&modelJSONTagKeyUnderlineToUpper, "model-json-tag-key-underline-to-upper", false, "The Entity JSON Tag key strategy: UnderlineToUpper")
+	genCmd.PersistentFlags().BoolVar(&entity, "entity", true, "Generate Entity Go file")
+	genCmd.PersistentFlags().BoolVar(&orm, "orm", true, "Generate Entity Go anorm supports")
+	genCmd.PersistentFlags().StringVarP(&entityPKG, "entity-pkg", "1", "entity", "The Entity package")
+	genCmd.PersistentFlags().BoolVar(&entityTable2EntityDefault, "table2entity-default", false, "The Table to Entity name strategy: default")
+	genCmd.PersistentFlags().BoolVar(&entityTable2EntityFirstLetterUpper, "table2entity-first-letter-upper", false, "The Table to Entity name strategy: FirstLetterUpper")
+	genCmd.PersistentFlags().BoolVar(&entityTable2EntityUnderlineToCamel, "table2entity-underline-to-camel", false, "The Table to Entity name strategy: UnderlineToCamel")
+	genCmd.PersistentFlags().BoolVar(&entityTable2EntityUnderlineToUpper, "table2entity-underline-to-upper", true, "The Table to Entity name strategy: UnderlineToUpper")
+	genCmd.PersistentFlags().BoolVar(&entityColumn2FieldDefault, "column2field-default", false, "The column to field name strategy: default")
+	genCmd.PersistentFlags().BoolVar(&entityColumn2FieldFirstLetterUpper, "column2field-first-letter-upper", false, "The column to field name strategy: FirstLetterUpper")
+	genCmd.PersistentFlags().BoolVar(&entityColumn2FieldUnderlineToCamel, "column2field-underline-to-camel", false, "The column to field name strategy: UnderlineToCamel")
+	genCmd.PersistentFlags().BoolVar(&entityColumn2FieldUnderlineToUpper, "column2field-underline-to-upper", true, "The column to field name strategy: UnderlineToUpper")
+	genCmd.PersistentFlags().BoolVar(&entityFileNameDefault, "entity-filename-default", true, "The Entity file name strategy: default")
+	genCmd.PersistentFlags().BoolVar(&entityFileNameFirstLetterUpper, "entity-filename-first-letter-upper", false, "The Entity file name strategy: FirstLetterUpper")
+	genCmd.PersistentFlags().BoolVar(&entityFileNameUnderlineToCamel, "entity-filename-underline-to-camel", false, "The Entity file name strategy: UnderlineToCamel")
+	genCmd.PersistentFlags().BoolVar(&entityFileNameUnderlineToUpper, "entity-filename-underline-to-upper", false, "The Entity file name strategy: UnderlineToUpper")
+	genCmd.PersistentFlags().BoolVar(&entityComment, "entity-comment", true, "Generate Entity comment")
+	genCmd.PersistentFlags().BoolVar(&entityFieldComment, "entity-field-comment", true, "Generate Entity field comment")
+	genCmd.PersistentFlags().BoolVar(&entityJSONTag, "entity-json-tag", true, "Generate Entity field JSON tag")
+	genCmd.PersistentFlags().BoolVar(&entityJSONTagKeyDefault, "entity-json-tag-key-default", true, "The Entity JSON Tag key strategy: default")
+	genCmd.PersistentFlags().BoolVar(&entityJSONTagKeyFirstLetterUpper, "entity-json-tag-key-first-letter-upper", false, "The Entity JSON Tag key strategy: FirstLetterUpper")
+	genCmd.PersistentFlags().BoolVar(&entityJSONTagKeyUnderlineToCamel, "entity-json-tag-key-underline-to-camel", false, "The Entity JSON Tag key strategy: UnderlineToCamel")
+	genCmd.PersistentFlags().BoolVar(&entityJSONTagKeyUnderlineToUpper, "entity-json-tag-key-underline-to-upper", false, "The Entity JSON Tag key strategy: UnderlineToUpper")
 
 	genCmd.PersistentFlags().BoolVarP(&config, "config", "C", true, "Generate Config")
 	genCmd.PersistentFlags().StringVarP(&configPKG, "config-pkg", "3", "config", "The Config package")
@@ -180,31 +180,31 @@ var (
 	author       = ""
 	verbose      = false
 
-	orm                              = false
-	model                            = true
-	modelPKG                         = "model"
-	modelTable2ModelDefault          = false
-	modelTable2ModelFirstLetterUpper = false
-	modelTable2ModelUnderlineToCamel = false
-	modelTable2ModelUnderlineToUpper = true
+	orm                                = false
+	entity                             = true
+	entityPKG                          = "entity"
+	entityTable2EntityDefault          = false
+	entityTable2EntityFirstLetterUpper = false
+	entityTable2EntityUnderlineToCamel = false
+	entityTable2EntityUnderlineToUpper = true
 
-	modelColumn2FieldDefault          = false
-	modelColumn2FieldFirstLetterUpper = false
-	modelColumn2FieldUnderlineToCamel = false
-	modelColumn2FieldUnderlineToUpper = true
+	entityColumn2FieldDefault          = false
+	entityColumn2FieldFirstLetterUpper = false
+	entityColumn2FieldUnderlineToCamel = false
+	entityColumn2FieldUnderlineToUpper = true
 
-	modelFileNameDefault          = true
-	modelFileNameFirstLetterUpper = false
-	modelFileNameUnderlineToCamel = false
-	modelFileNameUnderlineToUpper = false
+	entityFileNameDefault          = true
+	entityFileNameFirstLetterUpper = false
+	entityFileNameUnderlineToCamel = false
+	entityFileNameUnderlineToUpper = false
 
-	modelComment                    = true
-	modelFieldComment               = true
-	modelJSONTag                    = true
-	modelJSONTagKeyDefault          = true
-	modelJSONTagKeyFirstLetterUpper = false
-	modelJSONTagKeyUnderlineToCamel = false
-	modelJSONTagKeyUnderlineToUpper = false
+	entityComment                    = true
+	entityFieldComment               = true
+	entityJSONTag                    = true
+	entityJSONTagKeyDefault          = true
+	entityJSONTagKeyFirstLetterUpper = false
+	entityJSONTagKeyUnderlineToCamel = false
+	entityJSONTagKeyUnderlineToUpper = false
 
 	config    = true
 	configPKG = "config"
@@ -280,9 +280,9 @@ var CFG = &Configuration{
 		Website:          true,
 		WebsiteContent:   "https://github.com/billcoding/gocode-generator",
 	},
-	Model: &ModelConfiguration{
-		PKG:                   "model",
-		TableToModelStrategy:  UnderlineToUpper,
+	Entity: &EntityConfiguration{
+		PKG:                   "entity",
+		TableToEntityStrategy: UnderlineToUpper,
 		ColumnToFieldStrategy: UnderlineToUpper,
 		FileNameStrategy:      Default,
 		JSONTag:               true,
@@ -350,57 +350,57 @@ func setCFG() {
 	}
 
 	{
-		if modelPKG != "" {
-			CFG.Model.PKG = modelPKG
+		if entityPKG != "" {
+			CFG.Entity.PKG = entityPKG
 		}
 
-		CFG.Model.Orm = orm
-		CFG.Model.Comment = modelComment
-		CFG.Model.FieldComment = modelFieldComment
-		CFG.Model.JSONTag = modelJSONTag
+		CFG.Entity.Orm = orm
+		CFG.Entity.Comment = entityComment
+		CFG.Entity.FieldComment = entityFieldComment
+		CFG.Entity.JSONTag = entityJSONTag
 
 		switch {
-		case modelTable2ModelUnderlineToUpper:
-			CFG.Model.TableToModelStrategy = UnderlineToUpper
-		case modelTable2ModelUnderlineToCamel:
-			CFG.Model.TableToModelStrategy = UnderlineToCamel
-		case modelTable2ModelFirstLetterUpper:
-			CFG.Model.TableToModelStrategy = FirstLetterUpper
-		case modelTable2ModelDefault:
-			CFG.Model.TableToModelStrategy = Default
-		}
-
-		switch {
-		case modelColumn2FieldUnderlineToUpper:
-			CFG.Model.ColumnToFieldStrategy = UnderlineToUpper
-		case modelColumn2FieldUnderlineToCamel:
-			CFG.Model.ColumnToFieldStrategy = UnderlineToCamel
-		case modelColumn2FieldFirstLetterUpper:
-			CFG.Model.ColumnToFieldStrategy = FirstLetterUpper
-		case modelColumn2FieldDefault:
-			CFG.Model.ColumnToFieldStrategy = Default
+		case entityTable2EntityUnderlineToUpper:
+			CFG.Entity.TableToEntityStrategy = UnderlineToUpper
+		case entityTable2EntityUnderlineToCamel:
+			CFG.Entity.TableToEntityStrategy = UnderlineToCamel
+		case entityTable2EntityFirstLetterUpper:
+			CFG.Entity.TableToEntityStrategy = FirstLetterUpper
+		case entityTable2EntityDefault:
+			CFG.Entity.TableToEntityStrategy = Default
 		}
 
 		switch {
-		case modelFileNameUnderlineToUpper:
-			CFG.Model.FileNameStrategy = UnderlineToUpper
-		case modelFileNameUnderlineToCamel:
-			CFG.Model.FileNameStrategy = UnderlineToCamel
-		case modelFileNameFirstLetterUpper:
-			CFG.Model.FileNameStrategy = FirstLetterUpper
-		case modelFileNameDefault:
-			CFG.Model.FileNameStrategy = Default
+		case entityColumn2FieldUnderlineToUpper:
+			CFG.Entity.ColumnToFieldStrategy = UnderlineToUpper
+		case entityColumn2FieldUnderlineToCamel:
+			CFG.Entity.ColumnToFieldStrategy = UnderlineToCamel
+		case entityColumn2FieldFirstLetterUpper:
+			CFG.Entity.ColumnToFieldStrategy = FirstLetterUpper
+		case entityColumn2FieldDefault:
+			CFG.Entity.ColumnToFieldStrategy = Default
 		}
 
 		switch {
-		case modelJSONTagKeyUnderlineToUpper:
-			CFG.Model.JSONTagKeyStrategy = UnderlineToUpper
-		case modelJSONTagKeyUnderlineToCamel:
-			CFG.Model.JSONTagKeyStrategy = UnderlineToCamel
-		case modelJSONTagKeyFirstLetterUpper:
-			CFG.Model.JSONTagKeyStrategy = FirstLetterUpper
-		case modelJSONTagKeyDefault:
-			CFG.Model.JSONTagKeyStrategy = Default
+		case entityFileNameUnderlineToUpper:
+			CFG.Entity.FileNameStrategy = UnderlineToUpper
+		case entityFileNameUnderlineToCamel:
+			CFG.Entity.FileNameStrategy = UnderlineToCamel
+		case entityFileNameFirstLetterUpper:
+			CFG.Entity.FileNameStrategy = FirstLetterUpper
+		case entityFileNameDefault:
+			CFG.Entity.FileNameStrategy = Default
+		}
+
+		switch {
+		case entityJSONTagKeyUnderlineToUpper:
+			CFG.Entity.JSONTagKeyStrategy = UnderlineToUpper
+		case entityJSONTagKeyUnderlineToCamel:
+			CFG.Entity.JSONTagKeyStrategy = UnderlineToCamel
+		case entityJSONTagKeyFirstLetterUpper:
+			CFG.Entity.JSONTagKeyStrategy = FirstLetterUpper
+		case entityJSONTagKeyDefault:
+			CFG.Entity.JSONTagKeyStrategy = Default
 		}
 	}
 

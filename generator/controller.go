@@ -20,15 +20,15 @@ type ControllerGenerator struct {
 	Body       string
 }
 
-func (cg *ControllerGenerator) Init(e *Model) {
+func (cg *ControllerGenerator) Init(e *Entity) {
 	cg.Controller = &Controller{
-		PKG:   cg.C.Controller.PKG,
-		Model: e,
+		PKG:    cg.C.Controller.PKG,
+		Entity: e,
 	}
-	cg.Controller.Name = cg.C.Controller.NamePrefix + ConvertString(cg.Controller.Model.Table.Name, cg.C.Controller.NameStrategy) + cg.C.Controller.NameSuffix
-	cg.Controller.Route = cg.C.Controller.RoutePrefix + ConvertString(cg.Controller.Model.Table.Name, cg.C.Controller.RouteStrategy) + cg.C.Controller.RouteSuffix
-	cg.Controller.VarName = cg.C.Controller.VarNamePrefix + ConvertString(cg.Controller.Model.Table.Name, cg.C.Controller.VarNameStrategy) + cg.C.Controller.VarNameSuffix
-	cg.Controller.FileName = ConvertString(cg.Controller.Model.Table.Name, cg.C.Controller.FileNameStrategy)
+	cg.Controller.Name = cg.C.Controller.NamePrefix + ConvertString(cg.Controller.Entity.Table.Name, cg.C.Controller.NameStrategy) + cg.C.Controller.NameSuffix
+	cg.Controller.Route = cg.C.Controller.RoutePrefix + ConvertString(cg.Controller.Entity.Table.Name, cg.C.Controller.RouteStrategy) + cg.C.Controller.RouteSuffix
+	cg.Controller.VarName = cg.C.Controller.VarNamePrefix + ConvertString(cg.Controller.Entity.Table.Name, cg.C.Controller.VarNameStrategy) + cg.C.Controller.VarNameSuffix
+	cg.Controller.FileName = ConvertString(cg.Controller.Entity.Table.Name, cg.C.Controller.FileNameStrategy)
 }
 
 func (cg *ControllerGenerator) Generate() {
@@ -45,7 +45,7 @@ func (cg *ControllerGenerator) generateBody() {
 		},
 	})
 	if cg.C.Verbose {
-		controllerGeneratorLogger.Println(fmt.Sprintf("[generateBody] for model[%s]", cg.Controller.Model.Name))
+		controllerGeneratorLogger.Println(fmt.Sprintf("[generateBody] for entity[%s]", cg.Controller.Entity.Name))
 	}
 }
 
@@ -59,6 +59,6 @@ func (cg *ControllerGenerator) generateFile() {
 	_ = os.MkdirAll(dir, 0700)
 	_ = os.WriteFile(fileName, []byte(cg.Body), 0700)
 	if cg.C.Verbose {
-		controllerGeneratorLogger.Println(fmt.Sprintf("[generateFile] for model[%s], saved as [%s]", cg.Controller.Model.Name, fileName))
+		controllerGeneratorLogger.Println(fmt.Sprintf("[generateFile] for entity[%s], saved as [%s]", cg.Controller.Entity.Name, fileName))
 	}
 }

@@ -1,4 +1,4 @@
-package model
+package entity
 
 type Table struct {
 	Name    string `db:"TABLE_NAME"`

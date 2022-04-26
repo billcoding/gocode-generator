@@ -1,6 +1,6 @@
-package model
+package entity
 
-type Model struct {
+type Entity struct {
 	PKG                 string
 	Name                string
 	FileName            string

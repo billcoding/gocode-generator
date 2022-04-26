@@ -2,28 +2,28 @@ package tpl
 
 import "embed"
 
-//go:embed model.tpl config.tpl controller.tpl service.tpl
+//go:embed entity.tpl config.tpl controller.tpl service.tpl
 var FS embed.FS
-var modelTpl = `model.tpl`
+var entityTpl = `entity.tpl`
 
 var configTpl = `config.tpl`
 var controllerTpl = `controller.tpl`
 var serviceTpl = `service.tpl`
-var modelTplContent = ""
+var entityTplContent = ""
 
 var configTplContent = ""
 var controllerTplContent = ""
 var serviceTplContent = ""
 
-func ModelTpl() string {
-	if modelTplContent == "" {
-		file, err := FS.ReadFile(modelTpl)
+func EntityTpl() string {
+	if entityTplContent == "" {
+		file, err := FS.ReadFile(entityTpl)
 		if err != nil {
 			panic(err)
 		}
-		modelTplContent = string(file)
+		entityTplContent = string(file)
 	}
-	return modelTplContent
+	return entityTplContent
 }
 
 func ConfigTpl() string {

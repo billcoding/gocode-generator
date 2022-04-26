@@ -7,7 +7,7 @@ type Configuration struct {
 	IncludeTables []string
 	ExcludeTables []string
 	Global        *GlobalConfiguration
-	Model         *ModelConfiguration
+	Entity        *EntityConfiguration
 	MapperEnable  bool
 	Config        *CfgConfiguration
 	Controller    *ControllerConfiguration
@@ -24,9 +24,9 @@ type GlobalConfiguration struct {
 	WebsiteContent   string
 }
 
-type ModelConfiguration struct {
+type EntityConfiguration struct {
 	PKG                   string
-	TableToModelStrategy  StrategyType
+	TableToEntityStrategy StrategyType
 	ColumnToFieldStrategy StrategyType
 	FileNameStrategy      StrategyType
 	JSONTag               bool

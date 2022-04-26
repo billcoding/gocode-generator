@@ -6,10 +6,10 @@ import (
 	. "github.com/billcoding/gocode-generator/model"
 )
 
-func GetModelGenerators(CFG *Configuration, tableMap map[string]*Table) []Generator {
+func GetEntityGenerators(CFG *Configuration, tableMap map[string]*Table) []Generator {
 	egs := make([]Generator, 0)
 	for _, v := range tableMap {
-		eg := &ModelGenerator{
+		eg := &EntityGenerator{
 			C:     CFG,
 			Table: v,
 		}
@@ -25,25 +25,25 @@ func GetCfgGenerator(CFG *Configuration) Generator {
 	}
 }
 
-func GetControllerGenerators(CFG *Configuration, modelGenerators []Generator) []Generator {
+func GetControllerGenerators(CFG *Configuration, entityGenerators []Generator) []Generator {
 	cgs := make([]Generator, 0)
-	for _, eg := range modelGenerators {
+	for _, eg := range entityGenerators {
 		cg := &ControllerGenerator{
 			C: CFG,
 		}
-		cg.Init(eg.(*ModelGenerator).Model)
+		cg.Init(eg.(*EntityGenerator).Entity)
 		cgs = append(cgs, cg)
 	}
 	return cgs
 }
 
-func GetServiceGenerators(CFG *Configuration, modelGenerators []Generator) []Generator {
+func GetServiceGenerators(CFG *Configuration, entityGenerators []Generator) []Generator {
 	sgs := make([]Generator, 0)
-	for _, eg := range modelGenerators {
+	for _, eg := range entityGenerators {
 		sg := &ServiceGenerator{
 			C: CFG,
 		}
-		sg.Init(eg.(*ModelGenerator).Model)
+		sg.Init(eg.(*EntityGenerator).Entity)
 		sgs = append(sgs, sg)
 	}
 	return sgs
