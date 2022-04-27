@@ -29,6 +29,7 @@ func (entity *{{.Entity.Name}}) Configure(c *anorm.EC) {
 	c.Migrate = true
 	c.Commented = true
 	c.Comment = "{{.Entity.Table.Comment}}"
+	c.IFNotExists = true
 	c.IndexDefinitions = []sg.Ge{ {{range $i, $e := .Entity.OrmIndexDefinitions}}
 		{{$e}},{{end}}
 	}
