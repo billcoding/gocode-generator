@@ -25,6 +25,7 @@ type {{.Entity.Name}} struct {
 }
 {{if .Entity.Orm}}
 func (entity *{{.Entity.Name}}) Configure(c *anorm.EC) {
+	c.Table = "{{.Entity.Table.Name}}"
 	c.Migrate = true
 	c.Commented = true
 	c.Comment = "{{.Entity.Table.Comment}}"
