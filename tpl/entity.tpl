@@ -84,3 +84,17 @@ var {{.Entity.Name}}Columns = &struct{ {{range $i, $e := .Entity.Ids}}
     {{$e.Name}} : "{{$e.Column.Name}}",
 {{end}}
 }
+
+var {{.Entity.Name}}AliasColumns = &struct{ {{range $i, $e := .Entity.Ids}}
+    {{if $e.Comment}}// {{$e.Name}} {{$e.Column.Comment}}{{end}}
+    {{$e.Name}} sg.C
+    {{end}}{{range $i, $e := .Entity.Fields}}
+    {{if $e.Comment}}// {{$e.Name}} {{$e.Column.Comment}}{{end}}
+    {{$e.Name}} sg.C
+    {{end}}
+}{ {{range $i, $e := .Entity.Ids}}
+    {{$e.Name}} : "t.{{$e.Column.Name}}",
+    {{end}}{{range $i, $e := .Entity.Fields}}
+    {{$e.Name}} : "t.{{$e.Column.Name}}",
+{{end}}
+}
