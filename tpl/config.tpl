@@ -21,5 +21,5 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-	anorm.DS(db){{end}}
+    anorm.DataSourcePool.Push(db){{end}}
 }
