@@ -10,8 +10,6 @@ type Configuration struct {
 	Entity        *EntityConfiguration
 	MapperEnable  bool
 	Config        *CfgConfiguration
-	Controller    *ControllerConfiguration
-	Service       *ServiceConfiguration
 }
 
 type GlobalConfiguration struct {
@@ -37,36 +35,10 @@ type EntityConfiguration struct {
 	NamePrefix            string
 	NameSuffix            string
 	Orm                   bool
+	OnlyColumnAlias       bool
 }
 
 type CfgConfiguration struct {
 	PKG  string
 	Name string
-}
-
-type ControllerConfiguration struct {
-	PKG              string
-	NameStrategy     StrategyType
-	VarNameStrategy  StrategyType
-	RouteStrategy    StrategyType
-	FileNameStrategy StrategyType
-	NamePrefix       string
-	NameSuffix       string
-	RoutePrefix      string
-	RouteSuffix      string
-	VarNamePrefix    string
-	VarNameSuffix    string
-	Comment          bool
-}
-
-type ServiceConfiguration struct {
-	PKG              string
-	NameStrategy     StrategyType
-	VarNameStrategy  StrategyType
-	FileNameStrategy StrategyType
-	NamePrefix       string
-	NameSuffix       string
-	VarNamePrefix    string
-	VarNameSuffix    string
-	Comment          bool
 }

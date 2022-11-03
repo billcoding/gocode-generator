@@ -26,11 +26,11 @@ func init() {
 	rootCmd.AddCommand(versionCmd)
 }
 
-const version = "1.0"
+const version = "1.1.0"
 
 func PrintVersion(goVersion bool) {
-	fmt.Fprintln(os.Stdout, version)
+	_, _ = fmt.Fprintln(os.Stdout, version)
 	if goVersion {
-		fmt.Fprintln(os.Stdout, runtime.Version())
+		_, _ = fmt.Fprintln(os.Stdout, runtime.Version())
 	}
 }

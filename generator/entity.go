@@ -129,13 +129,23 @@ func (eg *EntityGenerator) Init() *EntityGenerator {
 }
 
 func (eg *EntityGenerator) generateBody() {
-	eg.Body = ExecuteTpl(tpl.EntityTpl(), map[string]interface{}{
-		"Entity": eg.Entity,
-		"Config": eg.C,
-		"Extra": map[string]interface{}{
-			"Date": time.Now().Format(eg.C.Global.DateLayout),
-		},
-	})
+	if eg.C.Entity.OnlyColumnAlias {
+		eg.Body = ExecuteTpl(tpl.ColumnTpl(), map[string]interface{}{
+			"Entity": eg.Entity,
+			"Config": eg.C,
+			"Extra": map[string]interface{}{
+				"Date": time.Now().Format(eg.C.Global.DateLayout),
+			},
+		})
+	} else {
+		eg.Body = ExecuteTpl(tpl.EntityTpl(), map[string]interface{}{
+			"Entity": eg.Entity,
+			"Config": eg.C,
+			"Extra": map[string]interface{}{
+				"Date": time.Now().Format(eg.C.Global.DateLayout),
+			},
+		})
+	}
 	if eg.C.Verbose {
 		entityGeneratorLogger.Println(fmt.Sprintf("[generateBody] for entity[%s]", eg.Entity.Name))
 	}

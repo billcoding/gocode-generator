@@ -2,29 +2,16 @@ package tpl
 
 import "embed"
 
-//go:embed entity.tpl config.tpl controller.tpl service.tpl
-var FS embed.FS
-var entityTpl = `entity.tpl`
-
-var configTpl = `config.tpl`
-var controllerTpl = `controller.tpl`
-var serviceTpl = `service.tpl`
-var entityTplContent = ""
-
-var configTplContent = ""
-var controllerTplContent = ""
-var serviceTplContent = ""
-
-func EntityTpl() string {
-	if entityTplContent == "" {
-		file, err := FS.ReadFile(entityTpl)
-		if err != nil {
-			panic(err)
-		}
-		entityTplContent = string(file)
-	}
-	return entityTplContent
-}
+var (
+	//go:embed config.tpl entity.tpl column.tpl
+	FS               embed.FS
+	configTpl        = `config.tpl`
+	entityTpl        = `entity.tpl`
+	columnTpl        = `column.tpl`
+	configTplContent = ""
+	entityTplContent = ""
+	columnTplContent = ""
+)
 
 func ConfigTpl() string {
 	if configTplContent == "" {
@@ -37,24 +24,24 @@ func ConfigTpl() string {
 	return configTplContent
 }
 
-func ControllerTpl() string {
-	if controllerTplContent == "" {
-		file, err := FS.ReadFile(controllerTpl)
+func EntityTpl() string {
+	if entityTplContent == "" {
+		file, err := FS.ReadFile(entityTpl)
 		if err != nil {
 			panic(err)
 		}
-		controllerTplContent = string(file)
+		entityTplContent = string(file)
 	}
-	return controllerTplContent
+	return entityTplContent
 }
 
-func ServiceTpl() string {
-	if serviceTplContent == "" {
-		file, err := FS.ReadFile(serviceTpl)
+func ColumnTpl() string {
+	if columnTplContent == "" {
+		file, err := FS.ReadFile(columnTpl)
 		if err != nil {
 			panic(err)
 		}
-		serviceTplContent = string(file)
+		columnTplContent = string(file)
 	}
-	return serviceTplContent
+	return columnTplContent
 }
