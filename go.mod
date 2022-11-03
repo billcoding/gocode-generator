@@ -8,4 +8,7 @@ require (
 	github.com/spf13/cobra v1.1.3
 )
 
-require github.com/stretchr/testify v1.7.0 // indirect
+require (
+	github.com/stretchr/testify v1.7.0 // indirect
+	golang.org/x/sys v0.1.0 // indirect
+)
